@@ -3,7 +3,9 @@
  * GET users listing.
  */
 
-var items = [{id:1,status:'done',text:'111'}, {id:2,status:'doing',text:'2222'}, {id:3,status:'doing',text:'333333'}];
+var items = [{id:1,status:'done',text:'111'}, 
+            {id:2,status:'doing',text:'2222'}, 
+            {id:3,status:'doing',text:'333333'}];
 var index = 3;
 
 exports.list = function(req, res){
