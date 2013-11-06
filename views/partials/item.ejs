@@ -1,0 +1,17 @@
+<div class="box todos">
+    <h2 class="box">待办事项</h2>    
+    <ul>
+      <li ng-repeat='item in items' ng-class="item.status">
+        {{ item.text }}
+        <a href='#/finish/{{ item.id }}'>finish</a>
+        <a href='#/modify/{{ item.id }}'>modify</a>
+        <a href='#/delete/{{ item.id }}'>delete</a>
+      </li>
+    </ul>
+</div>
+
+<div class="box post">
+    <h2>新增</h2> 
+    <input type='text' ng-model='form.text' />
+    <input type='button' ng-click='addTodo()' value='add' />
+</div>

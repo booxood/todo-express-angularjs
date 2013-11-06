@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang='en' ng-app='todoApp'>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/reset.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <script src='lib/angular/angular.js'></script>
+    <script src='lib/angular/angular-route.js'></script>
+    <script src='javascripts/app.js'></script>
+    <script src='javascripts/controllers.js'></script>
+  </head>
+  <body>
+    <div class="page">
+        <div class="header box">
+            <h1><a href="/">任务</a></h1>
+        </div>
+
+        <div class="main box">
+
+          <div class="box" ng-view>
+          </div>
+
+          <div class="foot">
+              Copyright&copy; 
+               <a href="http://simple-is-better.com/news/309">simple-todo</a>
+          </div>
+
+        </div> <!-- class="main box" -->
+
+    </div> <!-- class="page" -->
+  </body>
+</html>
+
