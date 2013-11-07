@@ -13,9 +13,16 @@
     "mocha": "*",
     "should": "*",
     "supertest": "*",
+    "travis-cov": "*",
     "blanket": "*"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test-all",
+    "blanket": {
+        "pattern": "//^((?!(node_modules|test)).)*$/"
+    },
+    "travis-cov": {
+        "threshold": 60
+    }
   }
 }

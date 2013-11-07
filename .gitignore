@@ -1,3 +1,5 @@
 node_modules/
 public/lib/angular/docs/
 public/lib/angular/i18n/
+
+coverage.html
