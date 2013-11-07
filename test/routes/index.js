@@ -1,16 +1,49 @@
+'use strict';
+
 var request = require('supertest');
-var express = require('express');
+var should = require('should');
+var app = require('../../app.js');
 
-var app = express();
-
-app.get('/user', function(req, res){
-  res.send(200, { name: 'tobi' });
+describe('routes.index', function(){
+    it('should return status_code 200 get the url /', function(done){
+        request(app)
+        .get('/')
+        .expect(200)
+        .end(function(err, res){
+            should.not.exist(err);
+            // console.log(res.text);
+            res.should.be.html;
+            done();
+        });
+    });
 });
 
-request(app)
-	.get('/')
-	.expect(404)
-	.end(function(err, res){
-		if(err) throw err;
-		return res;
-	});
+describe('routes.partials', function(){
+    it('should return status_code 200 get the url /partials/item', function(done){
+        request(app)
+        .get('/partials/item')
+        .expect(200)
+        .end(function(err, res){
+            should.not.exist(err);
+            done();
+        });
+    });
+    it('should return status_code 200 get the url /partials/modify', function(done){
+        request(app)
+        .get('/partials/modify')
+        .expect(200)
+        .end(function(err, res){
+            should.not.exist(err);
+            done();
+        });
+    });
+    it('should return status_code 200 get the url /partials/delete', function(done){
+        request(app)
+        .get('/partials/delete')
+        .expect(200)
+        .end(function(err, res){
+            should.not.exist(err);
+            done();
+        });
+    });
+});

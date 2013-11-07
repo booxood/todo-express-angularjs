@@ -12,7 +12,8 @@
   "devDependencies": {
     "mocha": "*",
     "should": "*",
-    "supertest": "*"
+    "supertest": "*",
+    "blanket": "*"
   },
   "scripts": {
     "test": "make test"

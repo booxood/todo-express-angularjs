@@ -4,9 +4,9 @@
  */
 
 exports.index = function(req, res){
-    res.render('index', { title: 'Todo' });
+    return res.render('index', { title: 'Todo' });
 };
 
 exports.partials = function(req, res){
-    res.render('partials/' + req.params.name);
+    return res.render('partials/' + req.params.name);
 };
