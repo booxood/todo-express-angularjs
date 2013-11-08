@@ -1,4 +1,4 @@
-# Todo [![Build Status](https://travis-ci.org/booxood/todo-express-angularjs.png?branch=master)](https://travis-ci.org/booxood/todo-express-angularjs)
+# Todo [![Build Status](https://travis-ci.org/booxood/todo-express-angularjs.png?branch=master)](https://travis-ci.org/booxood/todo-express-angularjs) [![Dependency Status](https://david-dm.org/booxood/todo-express-angularjs.png)](https://david-dm.org/booxood/todo-express-angularjs)
 
 
 ### 介绍
