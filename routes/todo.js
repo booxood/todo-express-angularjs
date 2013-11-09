@@ -3,76 +3,90 @@
  * GET users listing.
  */
 
-var items = [{id:1,status:'done',text:'111'}, 
-            {id:2,status:'doing',text:'2222'}, 
+var items = [{id:1,status:'done',text:'111'},
+            {id:2,status:'doing',text:'2222'},
             {id:3,status:'doing',text:'333333'}];
 var index = 3;
 
+var Todo = require('../models/todo.js');
+
 exports.list = function(req, res){
-    return res.json(items);    
+    Todo.list(function(err, result){
+        if(err){
+            return res.json(false);
+        }
+        return res.json(result);
+    });
 };
 
 exports.get = function(req, res){
     if(!req.params.id){
         return res.json(false);
     }
-    items.forEach(function(item, i){
-        if(req.params.id == item.id){
-            return res.json(item);
+    Todo.get(req.params.id, function(err, result){
+        if(err){
+            return res.json(false);
         }
+        return res.json(result);
     });
 };
 
 exports.add = function(req, res){
-    console.log('===='+req.body.text);
-    
-    if(req.body.text){
-        index += 1;
-        var item = {
-            id: index,
-            status: 'doing',
-            text: req.body.text
-        };
-        items.push(item);
+    if(!req.params.text){
+        return res.json(false);
     }
 
-    res.json(items);
+    var todo = new Todo(req.body.text);
+    todo.save(function(err, result){
+        if(err){
+            return res.json(false);
+        }
+        Todo.list(function(err, result){
+            return res.json(result);
+        });
+    });
 };
 
 exports.update = function(req, res){
     if(!req.params.id || !req.body.text){
         return res.json(false);
     }
-    items.forEach(function(item, i){
-        if(req.params.id == item.id){
-            item.text = req.body.text;
-        };
-    });
 
-    res.json(true);
+    Todo.update(req.params.id, {text:req.body.text}, function(err, result){
+        if(err){
+            return res.json(false);
+        }
+        return res.json(true);
+    });
 };
 
 exports.finish = function(req, res){
     if(!req.params.id){
         return res.json(false);
     };
-    items.forEach(function(item, i){
-        if(req.params.id == item.id){
-            item.status = item.status == 'done' ? 'doing' : 'done';
-        };
-    });
 
-    res.json(true);    
+    Todo.get(req.params.id, function(err, result){
+        if(err){
+            return res.json(false);
+        }
+        result.finish(function(err){
+            if(err){
+                return res.json(false);
+            }
+            return res.json(true);
+        });
+    });
 };
 
 exports.del = function(req, res){
     if(!req.params.id){
         return res.json(false);
     };
-    items.forEach(function(item, i){
-        if(req.params.id == item.id){
-            Array.prototype.splice.apply(items, [i,1]);
-        };
+
+    Todo.remove(req.params.id, function(err, result){
+        if(err){
+            return res.json(false);
+        }
+        return res.json(true);
     });
-    res.json(true);
 };

@@ -1,0 +1,1 @@
+var dbUrl = require('../config.js').dbUrl;var db = require('mongoskin').db(dbUrl);module.exports = db;
