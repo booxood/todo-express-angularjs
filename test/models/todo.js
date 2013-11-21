@@ -3,7 +3,7 @@
 var should = require('should');
 var Todo = require('../../models/todo');
 
-var todoCase = ['test1', 'test2', 'test3'];
+var todoCase = ['test1', 'test2'];
 
 describe('models.Todo', function(){
 

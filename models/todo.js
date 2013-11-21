@@ -1,29 +1,27 @@
 var db = require('./db');
 var todosDB = db.collection('todos');
 
-var index = 1;
-
 var Todo = function(text){
-	this.id = 0;
-	this.text = text;
-	this.status = 'doing';
+    this.text = text;
+    this.status = 'doing';
 };
 
 module.exports = Todo;
 
 Todo.prototype.save = function(callback){
-    var todo = {
-        id: index,
-        text: this.text,
-        status: this.status
-    };
-    todosDB.insert(todo, function(err, result){
+    var that = this;
+    Todo.getMaxId(function(err, id){
         if(err){
-            return callback(err, result);
+            return callback(err, null);
         }
-        index += 1;
-        return callback(null, result);
-    });
+        // console.log('save id: ' + id);
+        var todo = {
+            id: id + 1,
+            text: that.text,
+            status: that.status
+        };
+        todosDB.insert(todo, callback);
+    })
 };
 
 Todo.prototype.finish = function(callback){
@@ -36,17 +34,33 @@ Todo.prototype.finish = function(callback){
     });
 };
 
+Todo.getMaxId = function(callback){
+
+    todosDB.find({}).toArray(function(err, todos){
+        if(err){
+            return callback(err, null);
+        }
+        // console.dir(todos);
+
+        if(todos.length > 0){
+            todosDB.find({}).sort({'id': -1}).toArray(function(err, result){
+                if(err){
+                    return callback(err, null);
+                }
+                return callback(null, result[0].id);
+            });         
+        }else{
+            return callback(null, 0);
+        }
+    });
+};
+
 Todo.list = function(callback){
-	todosDB.find().toArray(function(err, result){
-		if(err){
-			return callback(err, result);
-		}
-		return callback(null, result);
-	});
+    todosDB.find().toArray(callback);
 };
 
 Todo.get = function(id, callback){
-	todosDB.findOne({id: id}, function(err, result){
+    todosDB.findOne({id: id}, function(err, result){
         if(err){
             return callback(err, result);
         }
@@ -58,28 +72,18 @@ Todo.get = function(id, callback){
 };
 
 Todo.update = function(id, newObj, callback){
-    todosDB.update({id: id}, {$set: newObj},function(err, result){
-        if(err){
-            return callback(err, result);
-        }
-        return callback(null, result);
-    });
+    todosDB.update({id: id}, {$set: newObj}, callback);
 };
 
 Todo.remove  = function(id, callback){
-    todosDB.remove({id: id}, function(err, result){
-        if(err){
-            return callback(err, result);
-        }
-        return callback(null, result);
-    });
+    todosDB.remove({id: id}, callback);
 };
 
 Todo.removeAll  = function(callback){
-    todosDB.remove({}, function(err, result){
-        if(err){
-            return callback(err, result);
-        }
-        return callback(null, result);
-    });
+    todosDB.remove({}, callback);
 };
+
+var t = new Todo('add test');
+t.save(function(err, result){
+    console.log(err + ' : save : ' +  result.id);
+});
