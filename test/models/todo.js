@@ -3,74 +3,81 @@
 var should = require('should');
 var Todo = require('../../models/todo');
 
-var todoCase = ['test1', 'test2'];
-
 describe('models.Todo', function(){
 
-    before(function(done){
+    // before
+    // beforeEach
+    // afterEach
+    // after
+
+    beforeEach(function(done){
         Todo.removeAll(function(err, result){
             should.not.exist(err);
             done();
         });
     });
 
-    beforeEach(function(done){
-        todoCase.forEach(function(v, k){
-            var todo = new Todo({text: v});
-            todo.save(function(err, result){
-                should.not.exist(err);
-            });
-        });
-        done();
-    });
-
-    afterEach(function(done){
-        Todo.removeAll(function(err, result){
+    it('should insert a Todo, Todo.save ', function(done){
+        var todo = new Todo(1, 'test', 'doing');
+        todo.save(function(err, result){
             should.not.exist(err);
+            result.should.be.an.instanceOf(Todo).and.have.properties('id', 'text', 'status');        
             done();
         });
     });
 
     it('should return list , Todo.list ', function(done){
-        Todo.list(function(err, result){
+        (new Todo(1, 'test 1 ', 'doing')).save(function(err, result){
             should.not.exist(err);
-            result.length.should.equal(todoCase.length);
-            done();
+            Todo.list(function(err, result){
+                should.not.exist(err);
+                result.should.be.an.instanceof(Array).and.have.lengthOf(1);
+                result.length.should.equal(1);
+                done();
+            });
         });
+
     });
 
     it('should get one by id, Todo.get', function(done){
-        Todo.get(1, function(err, result){
+        (new Todo(1, 'test 1 ', 'doing')).save(function(err, result){
             should.not.exist(err);
-            result.should.have.property('id', 1);
-            done();
+            Todo.get(1, function(err, result){
+                should.not.exist(err);
+                result.should.be.an.instanceOf(Todo).have.property('status', 'doing');
+                done();
+            });
         });
     });
 
-    it('should text=modify by id=1, Todo.update', function(done){
-        Todo.update(1, {text: 'modify'}, function(err){
+    it('should text=update by id=1, Todo.update', function(done){
+        (new Todo(1, 'test', 'doing')).save(function(err, doc){
             should.not.exist(err);
-        });
-        Todo.get(1, function(err, result){
-            should.not.exist(err);
-            result.should.have.property('text', 'modify');
-            done();
-        });
-    });
-
-    it('should change status doing or done, Todo.prototype.finish', function(done){
-        Todo.get(1, function(err, todo){
-            should.not.exist(err);
-            todo.should.have.property('status');
-            var status = todo.status === 'doing' ? 'done' : 'doing';
-            todo.finish(function(err, result){
+            Todo.update(1, {text: 'update'}, function(err){
                 should.not.exist(err);
                 Todo.get(1, function(err, result){
                     should.not.exist(err);
-                    result.should.have.property('status', status);
+                    result.should.be.an.instanceof(Todo).have.property('text', 'update');
                     done();
                 });
             });
         });
     });
+
+    it('should change status doing or done, Todo.prototype.finish', function(done){
+        (new Todo(1, 'test', 'doing')).save(function(err, result){
+            should.not.exist(err);
+            result.should.be.an.instanceof(Todo);
+            console.dir(result);
+            result.finish(function(err){
+                should.not.exist(err);
+                Todo.get(1, function(err, result){
+                    should.not.exist(err);
+                    result.should.be.an.instanceof(Todo).have.property('status', 'done');
+                    done();
+                });
+            });
+        });
+    });
+    
 });
