@@ -3,7 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "test": "make test-all",
+    "blanket": {
+        "pattern": "//^((?!(node_modules|test)).)*$/"
+    },
+    "travis-cov": {
+        "threshold": 60
+    }
   },
   "dependencies": {
     "express": "3.4.4",
@@ -16,14 +23,5 @@
     "supertest": "*",
     "travis-cov": "*",
     "blanket": "*"
-  },
-  "scripts": {
-    "test": "make test-all",
-    "blanket": {
-        "pattern": "//^((?!(node_modules|test)).)*$/"
-    },
-    "travis-cov": {
-        "threshold": 60
-    }
   }
 }

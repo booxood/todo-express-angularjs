@@ -68,7 +68,6 @@ describe('models.Todo', function(){
         (new Todo(1, 'test', 'doing')).save(function(err, result){
             should.not.exist(err);
             result.should.be.an.instanceof(Todo);
-            console.dir(result);
             result.finish(function(err){
                 should.not.exist(err);
                 Todo.get(1, function(err, result){
@@ -76,6 +75,33 @@ describe('models.Todo', function(){
                     result.should.be.an.instanceof(Todo).have.property('status', 'done');
                     done();
                 });
+            });
+        });
+    });
+
+    it('should return max ID, Todo.getMaxId', function(done){
+        (new Todo(10, 'test')).save(function(err, result){
+            should.not.exist(err);
+            result.should.be.an.instanceof(Todo);
+            Todo.getMaxId(function(err, id){
+                should.not.exist(err);
+                id.should.equal(10);
+                done();
+            });
+        });
+    });
+    
+    it('should no return, Todo.remove', function(done){
+        (new Todo(1, 'test')).save(function(err, result){
+            should.not.exist(err);
+            result.should.be.an.instanceof(Todo);
+            Todo.remove(1, function(err){
+                should.not.exist(err);
+                Todo.list(function(err, result){
+                    should.not.exist(err);
+                    result.should.be.an.instanceof(Array).have.lengthOf(0);
+                    done();
+                })
             });
         });
     });

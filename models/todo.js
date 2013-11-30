@@ -82,8 +82,14 @@ Todo.get = function(id, callback){
         if(err){
             return callback(err, result);
         }
-        var todo = new Todo(result.id, result.text, result.status);
-        return callback(null, todo);
+
+        if(result){
+            var todo = new Todo(result.id, result.text, result.status);
+            return callback(null, todo);
+        }else{
+            return callback(err, result);
+        }
+
     });
 };
 
