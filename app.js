@@ -34,10 +34,10 @@ app.get('/partials/:name', routes.partials);
 // REST 
 app.get('/todoApi/list', todo.list);
 app.get('/todoApi/get/:id', todo.get);
-app.post('/todoApi/add', todo.add);
-app.put('/todoApi/update/text/:id', todo.update);
-app.put('/todoApi/update/status/:id', todo.finish);
-app.delete('/todoApi/del/:id', todo.del);
+app.post('/todoApi', todo.add);
+app.put('/todoApi/text/:id', todo.update);
+app.put('/todoApi/status/:id', todo.finish);
+app.delete('/todoApi/:id', todo.del);
 
 
 http.createServer(app).listen(app.get('port'), function(){

@@ -44,13 +44,13 @@ describe('route.todo', function(){
         });
     });
 
-    it('should return json, post /todoApi/add', function(done){
+    it('should return json, post /todoApi', function(done){
         var postData = {
             text: 'add test'
         };
 
         request(app)
-        .post('/todoApi/add')
+        .post('/todoApi')
         .send(postData)
         .expect(200)
         .end(function(err, res){
@@ -65,12 +65,12 @@ describe('route.todo', function(){
         });
     });
 
-    it('should return \'true\', put /todoApi/update/text/:id', function(done){
+    it('should return \'true\', put /todoApi/text/:id', function(done){
         var postData = {
             text: 'update'
         };
         request(app)
-        .put('/todoApi/update/text/1')
+        .put('/todoApi/text/1')
         .send(postData)
         .expect(200)
         .end(function(err, res){
@@ -89,9 +89,9 @@ describe('route.todo', function(){
         });
     });
 
-    it('should return \'true\',put /todoApi/update/status/:id', function(done){
+    it('should return \'true\',put /todoApi/status/:id', function(done){
         request(app)
-        .put('/todoApi/update/status/1')
+        .put('/todoApi/status/1')
         .expect(200)
         .end(function(err, res){
             should.not.exist(err);
@@ -105,9 +105,9 @@ describe('route.todo', function(){
         });
     });
 
-    it('should return \'true\',delete /todoApi/del/:id', function(done){
+    it('should return \'true\',delete /todoApi/:id', function(done){
         request(app)
-        .del('/todoApi/del/1')
+        .del('/todoApi/1')
         .expect(200)
         .end(function(err, res){
             should.not.exist(err);
